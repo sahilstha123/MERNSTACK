@@ -1,9 +1,9 @@
 {
-  "name": "nodejs",
+  "name": "serversiderendering",
   "version": "1.0.0",
   "description": "",
   "license": "ISC",
-  "author": "Sahil Shrestha",
+  "author": "Sahil shrestha",
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
