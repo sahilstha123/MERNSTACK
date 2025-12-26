@@ -1,0 +1,100 @@
+/* Home layout */
+.home-container {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #f5f6fa, #e9ecf3);
+  text-align: center;
+  padding: 20px;
+}
+
+/* Hero text */
+.hero-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #0d1117;
+}
+
+.hero-subtitle {
+  margin-top: 12px;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+/* SSR hover tooltip */
+.ssr-tooltip {
+  position: relative;
+  color: #2563eb;
+  cursor: pointer;
+}
+
+/* Tooltip box */
+.tooltip-text {
+  position: absolute;
+  bottom: 130%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #0d1117;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+/* Tooltip arrow */
+.tooltip-text::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: #0d1117 transparent transparent transparent;
+}
+
+/* Hover effect */
+.ssr-tooltip:hover .tooltip-text {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-6px);
+}
+
+#floating-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* clicks pass through */
+  overflow: hidden;
+  z-index: 0; /* behind everything */
+  font-size: 24px; /* default emoji size */
+}
+
+.floating-flower {
+  position: absolute;
+  top: -2em;
+  color: #FF69B4; /* pink flower color */
+  opacity: 0.8;
+  animation: floatDown linear infinite;
+}
+
+@keyframes floatDown {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}

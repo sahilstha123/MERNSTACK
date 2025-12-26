@@ -11,7 +11,7 @@ app.use(express.static(path.join(__dirname,"public")))
 
 // Home page Controller
 app.get("/",(req,res)=>{
-    res.render("index",{title:"Homepage",message:"Hello from ejs"})
+    res.render("home",{title:"Homepage",message:"Hello from ejs"})
 })
 
 
@@ -23,7 +23,7 @@ app.get("/login",(req,res)=>{
 
 // user register page controller
 app.get("/register",(req,res)=>{
-    res.status(400).render("Register",{title:"Registration Page"})
+    res.status(200).render("Register",{title:"Registration Page"})
 })
 app.listen(PORT, (error) => {
     error ? console.log(error) : console.log(`https://localhost:${PORT}`)

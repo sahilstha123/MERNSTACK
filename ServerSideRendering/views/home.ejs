@@ -1,0 +1,53 @@
+<%- include("includes/head.ejs") %>
+  <link rel="stylesheet" href="/css/home.css">
+
+</head>
+<body>
+  <%- include("includes/navbar.ejs") %>
+
+  <main class="home-container">
+    <h1 class="hero-title">
+      Welcome to
+      <span class="ssr-tooltip">
+        SSR
+        <span class="tooltip-text">Server-Side Rendering</span>
+      </span>
+    </h1>
+
+    <p class="hero-subtitle">
+      It is a first Server Side Rendering Mini Project
+    </p>
+  </main>
+  <div id="floating-container"></div>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const container = document.getElementById("floating-container");
+  const numberOfFlowers = 30; // number of floating elements
+  const emojis = ["❄️", "🌨️", "⛄"]; // flower emojis
+
+  for (let i = 0; i < numberOfFlowers; i++) {
+    const flower = document.createElement("div");
+    flower.classList.add("floating-flower");
+
+    // Random emoji
+    flower.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+
+    // Random horizontal position
+    flower.style.left = Math.random() * 100 + "vw";
+
+    // Random animation duration
+    flower.style.animationDuration = 5 + Math.random() * 5 + "s";
+
+    // Random size
+    const size = 20 + Math.random() * 20;
+    flower.style.fontSize = size + "px";
+
+    container.appendChild(flower);
+  }
+});
+</script>
+
+
+ 
+</body>
+</html>
