@@ -6,6 +6,10 @@ const PORT = 8000
 app.set("view engine","ejs")
 app.set("views","views")
 
+// to read encoded data
+app.use(express.urlencoded({extended:true}))
+app.use(express.json())
+
 // serve public folder as static
 app.use(express.static(path.join(__dirname,"public")))
 
@@ -23,7 +27,13 @@ app.get("/login",(req,res)=>{
 
 // user register page controller
 app.get("/register",(req,res)=>{
+    // console.log(req.query)
     res.status(200).render("Register",{title:"Registration Page"})
+})
+
+app.post("/register",(req,res)=>{
+    console.log(req.body)
+    res.redirect("/login")
 })
 app.listen(PORT, (error) => {
     error ? console.log(error) : console.log(`https://localhost:${PORT}`)
