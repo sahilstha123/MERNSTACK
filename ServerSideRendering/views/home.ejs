@@ -1,5 +1,5 @@
 <%- include("includes/head.ejs") %>
-  <link rel="stylesheet" href="/css/home.css">
+<link rel="stylesheet" href="/css/home.css">
 
 </head>
 <body>
@@ -17,37 +17,87 @@
     <p class="hero-subtitle">
       It is a first Server Side Rendering Mini Project
     </p>
+
+    <section class="users-section">
+      <h2>Registered Users</h2>
+
+      <% if (users.length === 0) { %>
+          <p class="no-users">No users registered yet.</p>
+      <% } else { %>
+          <div class="table-wrapper">
+            <table class="users-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% users.forEach(user => { %>
+                        <tr>
+                            <td><%= user.name %></td>
+                            <td><%= user.email %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+          </div>
+
+          <div class="pagination" id="pagination"></div>
+      <% } %>
+    </section>
   </main>
-  <div id="floating-container"></div>
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const container = document.getElementById("floating-container");
-  const numberOfFlowers = 30; // number of floating elements
-  const emojis = ["❄️", "🌨️", "⛄"]; // flower emojis
 
-  for (let i = 0; i < numberOfFlowers; i++) {
-    const flower = document.createElement("div");
-    flower.classList.add("floating-flower");
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const rows = document.querySelectorAll(".users-table tbody tr");
+      const rowsPerPage = 5;
+      const pageCount = Math.ceil(rows.length / rowsPerPage);
+      const pagination = document.getElementById("pagination");
 
-    // Random emoji
-    flower.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      if (pageCount <= 1) return;
 
-    // Random horizontal position
-    flower.style.left = Math.random() * 100 + "vw";
+      let currentPage = 1;
 
-    // Random animation duration
-    flower.style.animationDuration = 5 + Math.random() * 5 + "s";
+      function showPage(page) {
+        const start = (page - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+        rows.forEach((row, index) => {
+          row.style.display = (index >= start && index < end) ? "" : "none";
+        });
 
-    // Random size
-    const size = 20 + Math.random() * 20;
-    flower.style.fontSize = size + "px";
+        updatePaginationButtons();
+      }
 
-    container.appendChild(flower);
-  }
-});
-</script>
+      function updatePaginationButtons() {
+        pagination.innerHTML = "";
 
+        const createButton = (text, disabled, page) => {
+          const btn = document.createElement("button");
+          btn.textContent = text;
+          btn.disabled = disabled;
+          btn.classList.toggle("active", page === currentPage);
+          btn.addEventListener("click", () => {
+            currentPage = page;
+            showPage(currentPage);
+          });
+          return btn;
+        };
 
- 
+        // Previous button
+        pagination.appendChild(createButton("Previous", currentPage === 1, currentPage - 1));
+
+        // Page numbers
+        for (let i = 1; i <= pageCount; i++) {
+          pagination.appendChild(createButton(i, false, i));
+        }
+
+        // Next button
+        pagination.appendChild(createButton("Next", currentPage === pageCount, currentPage + 1));
+      }
+
+      showPage(currentPage);
+    });
+  </script>
 </body>
 </html>

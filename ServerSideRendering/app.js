@@ -2,6 +2,7 @@ const express = require("express")
 const path = require("path")
 const app = express()
 const PORT = 8000
+const { getUsersFromCSV } = require("./utils/csvHelper");
 app.set("view engine","ejs")
 app.set("views","views")
 
@@ -13,9 +14,14 @@ app.use(express.json())
 app.use(express.static(path.join(__dirname,"public")))
 
 // Home page Controller
-app.get("/",(req,res)=>{
-    res.render("home",{title:"Homepage",message:"Hello from ejs"})
-})
+app.get("/", (req, res) => {
+    const users = getUsersFromCSV();
+    res.render("home", {
+        title: "Homepage",
+        message: "Hello from EJS",
+        users
+    });
+});
 
 
 // user login page controller
@@ -28,19 +34,21 @@ app.get("/login",(req,res)=>{
 app.get("/register",(req,res)=>{
     // console.log(req.query)
     res.status(200).render("Register",{title:"Registration Page"})
+
+   
 })
 
 // user register post 
 const fs = require("fs")
 const bcrypt = require("bcrypt")
-
+const fileName = "userList.csv"
 app.post("/register",async(req,res)=>{
     const {name,email,password,confirmPassword} = req.body
     if(password!==confirmPassword)
     {
         return res.status(400).send("Passwords do not match")
     }
-    const fileName = "userList.csv"
+    
     
     // create header once
     if(!fs.existsSync(fileName)){
