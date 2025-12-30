@@ -1,11 +1,60 @@
 const express = require("express")
 const app = express()
 const PORT = 8000
+// app.use(express.urlencoded({extended:true}))
+app.use(express.json())
 
-app.get("/",(req,res)=>{
+let fakeDB = [
+    {
+        id: 1,
+        fName: "Sahil",
+        lName: "Shrestha"
+    },
+    {
+        id: 2,
+        fName: "Dhanu",
+        lName: "Shrestha"
+    },
+]
+app.get("/", (req, res) => {
+    console.log(req.query)
     res.status(200).json({
-        message:"Succesfully connected to Postman"
+        message: "Succesfully connected to Postman",
+        users: fakeDB
     })
+})
+app.put("/", (req, res) => {
+    res.status(200).json({
+        message: "Put method"
+    })
+})
+app.post("/", (req, res) => {
+    fakeDB.push(req.body)
+    console.log(req.body)
+    res.status(200).json({
+        message: "post method"
+    })
+})
+app.delete("/:id", (req, res) => {
+    console.log(req.params)
+
+    const id = Number(req.params.id)
+
+    const initialLength = fakeDB.length
+
+    fakeDB = fakeDB.filter((users)=>users.id!==id)
+
+    if(fakeDB.length === initialLength)
+    {
+        return res.status(404).json({
+            message:"User not found"
+        })
+    }
+    res.status(200).json({
+        message: "users deleted succcessfully",
+        users:fakeDB
+    })
+
 })
 
 app.listen(PORT, (error) => {
