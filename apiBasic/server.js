@@ -23,9 +23,26 @@ app.get("/", (req, res) => {
         users: fakeDB
     })
 })
-app.put("/", (req, res) => {
+// Put method
+app.put("/:id", (req, res) => {
+    console.log(req.body, req.headers.authorization)
+    const id = Number(req.params.id)
+    const {fName, lName} = req.body
+    const userIndex = fakeDB.findIndex((users)=>users.id==id)
+    if(userIndex === -1)
+    {
+        return res.status(404).json({
+            message:"User not found"
+        })
+    }
+    fakeDB[userIndex]={
+        id:id,
+        fName,
+        lName
+    }
     res.status(200).json({
-        message: "Put method"
+        message: "User Updated Successfully",
+        users:fakeDB[userIndex]
     })
 })
 app.post("/", (req, res) => {
